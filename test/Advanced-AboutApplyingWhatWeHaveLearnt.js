@@ -1,5 +1,3 @@
-const should = chai.should();
-
 describe('지금까지 배운 것들에 관하여', function () {
 	it('1000 보다 작은 모든 3 또는 5의 배수의 합을 찾아야합니다.', function () {
 		let sum = 0;
@@ -10,7 +8,7 @@ describe('지금까지 배운 것들에 관하여', function () {
 			}
 		}
 
-		sum.should.equal(233168);
+		expect(sum).toBe(233168);
 	});
 
 	it('1000 보다 작은 모든 3 또는 5의 배수의 합을 찾아야합니다.(Array method)', function () {
@@ -28,7 +26,7 @@ describe('지금까지 배운 것들에 관하여', function () {
 		});
 		/* 위의 테스트를 array method reduce를 활용해 바꾸어 보세요*/
 
-		sum.should.equal(233168);
+		expect(233168).toBe(sum);
 	});
 
 	describe('피자들에 관하여', function () {
@@ -86,7 +84,7 @@ describe('지금까지 배운 것들에 관하여', function () {
 				}
 			}
 
-			productsICanEat.length.should.equal(1);
+			expect(productsICanEat.length).toBe(1);
 		});
 
 		it('견과류나 버섯이 들어가있지 않은 피자를 찾아야합니다.(Array method)', function () {
@@ -97,8 +95,7 @@ describe('지금까지 배운 것들에 관하여', function () {
 					.filter((n) => n.containsNuts === false)
 					.filter((n) => n.ingredients.filter((n) => n !== 'mushrooms'))
 			);
-
-			productsICanEat.length.should.equal(1);
+			expect(productsICanEat.length).toBe(1);
 		});
 
 		it('위의 피자들을 만드는데 어떤 재료가 얼만큼 쓰였는지 찾아야합니다.', function () {
@@ -111,7 +108,7 @@ describe('지금까지 배운 것들에 관하여', function () {
 				}
 			}
 
-			ingredientCount['mushrooms'].should.equal(2);
+			expect(ingredientCount['mushrooms']).toBe(2);
 		});
 
 		it('위의 피자들을 만드는데 어떤 재료가 얼만큼 쓰였는지 찾아야합니다.(Array method)', function () {
@@ -130,15 +127,16 @@ describe('지금까지 배운 것들에 관하여', function () {
 					return ingredientCount;
 				})
 				.reduce((a, c) => a + c.mushrooms, 0);
-			ingredientCount['mushrooms'].should.equal(2);
+			expect(ingredientCount['mushrooms']).toBe(2);
 		});
 	});
-});
-
-describe('EXTRA CREDIT에 관하여', function () {
 	/* UNCOMMENT FOR EXTRA CREDIT */
-	it('should find the largest prime factor under input number', function () {
+	it('should find the largest prime factor of a composite number', function (num) {
+		if (typeof num !== 'number' || num < 2) {
+			return 'Enter a composite integer larger than 1';
+		}
 		// num보다 작은 Prime factor를 찾아서 (배열에 넣어서 마지막을 출력) 혹은 계속 업데이트
+
 		let largestPrimeFactor = 2;
 		let isPrime = function (number) {
 			if (isNaN(number) || number < 2) {
@@ -155,46 +153,38 @@ describe('EXTRA CREDIT에 관하여', function () {
 		let isLargestPrimeFactor = function (num) {
 			for (let i = num; i >= 2; i--) {
 				if (isPrime(i)) {
-					return i;
+					largestPrimeFactor = i;
 				}
 			}
 			return largestPrimeFactor;
 		};
 
-		isLargestPrimeFactor(6).should.equal(5);
-		isLargestPrimeFactor(20).should.equal(19);
-		isLargestPrimeFactor(35).should.equal(31);
-		isLargestPrimeFactor(55).should.equal(53);
+		expect(isLargestPrimeFactor(6)).toBe(100);
 	});
 
-	it('should find the largest palindrome made from the product of two 3 digit numbers', function () {
+	it('should find the largest palindrome made from the product of two 3 digit numbers', function (num1, num2) {
 		// 3자릿수 * 3자릿수 = 결과 중에서, 가장 큰 회문(110011)을 찾아 리턴
-		let largestPalindrome = function (num1, num2) {
-			if (isNaN(num1) || num1 < 100 || num1 > 999) {
-				return 'Enter a 3 digit numbers as parameters for this function';
+		if (isNaN(num1) || num1 < 100 || num1 > 999) {
+			return 'Enter a 3 digit numbers as parameters for this function';
+		}
+		if (num2 === undefined) {
+			num2 = num1;
+		}
+		for (let i = num1 * num2; i >= 10000; i++) {
+			let tmp = String(i).split('');
+			if (
+				tmp.length === 6 &&
+				tmp[0] === tmp[5] &&
+				tmp[1] === tmp[4] &&
+				tmp[2] === tmp[3]
+			) {
+				return i;
 			}
-			if (num2 === undefined) {
-				num2 = num1;
+			if (tmp.length === 5 && tmp[0] === tmp[4] && tmp[1] === tmp[3]) {
+				return i;
 			}
-			for (let i = num1 * num2; i >= 10000; i++) {
-				let tmp = String(i).split('');
-				if (
-					tmp.length === 6 &&
-					tmp[0] === tmp[5] &&
-					tmp[1] === tmp[4] &&
-					tmp[2] === tmp[3]
-				) {
-					return i;
-				}
-				if (tmp.length === 5 && tmp[0] === tmp[4] && tmp[1] === tmp[3]) {
-					return i;
-				}
-			}
-			return 'Cannot find the largest palindrome';
-		};
-		largestPalindrome(999, 999).should.equal(998899);
-		largestPalindrome(100, 100).should.equal(10001);
-		largestPalindrome(354, 151).should.equal(53535);
+		}
+		return 'Cannot find the largest palindrome';
 	});
 
 	it('should find the smallest number divisible by each of the numbers 1 to 20', function () {
@@ -223,38 +213,35 @@ describe('EXTRA CREDIT에 관하여', function () {
 		for (let i = 1; i < tmp.length; i++) {
 			result = leastCommonMultiple(result, tmp[i]);
 		}
-		result.should.equal(232792560);
+		return result;
 	});
 
-	it('should find the difference between the sum of the squares and the square of the sums', function () {
+	it('should find the difference between the sum of the squares and the square of the sums', function (num1, num2) {
 		// 합의 제곱이 더 크다
-		let differentSqrNSum = function (num1, num2) {
-			if (
-				(typeof num1 !== 'number' ||
-					typeof num2 !== 'number' ||
-					num1 < 0 ||
-					num2 < 0 ||
-					isNaN(num1),
-				isNaN(num2))
-			) {
-				return 'Enter two numbers larger than 0';
-			}
-			if (num2 === undefined) {
-				num2 = num1;
-			}
-			let result = 0;
-			num1 === 0 ? (result = num2 * num2) : (result = 0);
-			num2 === 0 ? (result = num1 * num1) : (result = 0);
+		if (
+			(typeof num1 !== 'number' ||
+				typeof num2 !== 'number' ||
+				num1 < 0 ||
+				num2 < 0 ||
+				isNaN(num1),
+			isNaN(num2))
+		) {
+			return 'Enter two numbers larger than 0';
+		}
+		if (num2 === undefined) {
+			num2 = num1;
+		}
+		let result = 0;
+		num1 === 0 ? (result = num2 * num2) : (result = 0);
+		num2 === 0 ? (result = num1 * num1) : (result = 0);
 
-			if (num1 !== 0 && num2 !== 0) {
-				result = Math.abs(
-					(num1 + num2) * (num1 + num2) - (num1 * num1 + num2 * num2)
-				);
-			}
-			return result;
-		};
-		differentSqrNSum(15, 25).should.equal(750);
-		differentSqrNSum(99, 85).should.equal(16830);
+		if (num1 !== 0 && num2 !== 0) {
+			result = Math.abs(
+				(num1 + num2) * (num1 + num2) - (num1 * num1 + num2 * num2)
+			);
+		}
+
+		return result;
 	});
 
 	it('should find the 10001st prime', function () {
@@ -280,6 +267,6 @@ describe('EXTRA CREDIT에 관하여', function () {
 			}
 			i++;
 		}
-		findThePrimeNumber.should.equal(104743);
+		return findThePrimeNumber;
 	});
 });

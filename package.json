@@ -1,12 +1,10 @@
 {
   "name": "mochaex",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
-  "dependencies": {
-    "chai": "^4.2.0"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "chai": "^4.2.0",
     "mocha": "^8.1.1"
   },
   "scripts": {
@@ -14,5 +12,17 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QuePark/mochaTestEx.git"
+  },
+  "bugs": {
+    "url": "https://github.com/QuePark/mochaTestEx/issues"
+  },
+  "homepage": "https://github.com/QuePark/mochaTestEx#readme",
+  "description": ""
 }
